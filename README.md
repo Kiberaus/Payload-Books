@@ -1,3 +1,3 @@
 # Payloads All
 
-Includes work scripts, code, and report writing.
+A collection of tools, techniques, script-codes and more for the Pentester career.
